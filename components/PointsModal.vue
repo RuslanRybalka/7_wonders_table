@@ -1,14 +1,36 @@
 <template>
-  <div class="modal" @click.self="CLOSE_MODAL">
+  <div class="modal" @click.self="CLOSE_MODALS">
     <div class="table" :class="dimensionClass">
+      <button
+        v-if="hasLessButton"
+        class="point-cell button_less"
+        @click="OPEN_NEGATIVE_NUMBERS_MODAL"
+      >
+        less
+      </button>
+      <button
+        v-if="hasNormButton"
+        class="point-cell button_norm"
+        @click="OPEN_MODAL"
+      >
+        ...
+      </button>
+
+      <button
+        v-if="hasBigButton"
+        class="point-cell button_more"
+        @click="OPEN_BIG_NUMBERS_MODAL"
+      >
+        more
+      </button>
       <div
         v-for="(value, index) in points"
         :key="index"
-        :data-value="index"
+        :data-value="start + index"
         class="point-cell"
-        @click="selectPointsValue(index)"
+        @click="selectPointsValue(start + index)"
       >
-        {{ index }}
+        {{ start + index }}
       </div>
     </div>
   </div>
@@ -16,7 +38,13 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { CLOSE_MODAL, SET_SELECTED_POINTS_VALUE } from '~/store/mutation-types'
+import {
+  OPEN_MODAL,
+  CLOSE_MODALS,
+  OPEN_BIG_NUMBERS_MODAL,
+  OPEN_NEGATIVE_NUMBERS_MODAL,
+  SET_SELECTED_POINTS_VALUE,
+} from '~/store/mutation-types'
 export default {
   name: 'PointsModal',
   data: () => ({
@@ -26,6 +54,22 @@ export default {
     dimension: {
       type: Number,
       default: 0,
+    },
+    start: {
+      type: Number,
+      default: 0,
+    },
+    hasLessButton: {
+      type: Boolean,
+      default: true,
+    },
+    hasNormButton: {
+      type: Boolean,
+      default: true,
+    },
+    hasBigButton: {
+      type: Boolean,
+      default: true,
     },
   },
   created() {
@@ -42,9 +86,15 @@ export default {
   methods: {
     selectPointsValue(value) {
       this.SET_SELECTED_POINTS_VALUE(value)
-      this.CLOSE_MODAL()
+      this.CLOSE_MODALS()
     },
-    ...mapMutations([CLOSE_MODAL, SET_SELECTED_POINTS_VALUE]),
+    ...mapMutations([
+      OPEN_MODAL,
+      CLOSE_MODALS,
+      SET_SELECTED_POINTS_VALUE,
+      OPEN_NEGATIVE_NUMBERS_MODAL,
+      OPEN_BIG_NUMBERS_MODAL,
+    ]),
   },
 }
 </script>
@@ -64,6 +114,7 @@ export default {
   display: grid;
   column-gap: 2px;
   row-gap: 2px;
+  position: absolute;
   @for $i from 1 to 10 {
     &.d-#{$i} {
       grid-template-columns: repeat($i, 1fr);
@@ -81,5 +132,23 @@ export default {
   align-items: center;
   font-size: 24px;
   cursor: pointer;
+  border: none;
+}
+.button_less,
+.button_more,
+.button_norm {
+  position: absolute;
+  bottom: calc(100% + 20px);
+  font-size: 14px;
+}
+.button_more {
+  right: 0;
+}
+.button_less {
+  left: 0;
+}
+.button_norm {
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>

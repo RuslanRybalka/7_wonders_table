@@ -47,7 +47,23 @@
       Total
     </button>
     <transition name="fade">
-      <PointsModal v-if="isModalOpen" :dimension="6" />
+      <PointsModal v-if="isModalOpen" :dimension="6" :hasNormButton="false" />
+    </transition>
+    <transition name="fade">
+      <PointsModal
+        v-if="isBigNumbersModalOpen"
+        :dimension="6"
+        :start="36"
+        :hasBigButton="false"
+      />
+    </transition>
+    <transition name="fade">
+      <PointsModal
+        v-if="isNegativeNumbersModalOpen"
+        :dimension="4"
+        :start="-16"
+        :hasLessButton="false"
+      />
     </transition>
   </div>
 </template>
@@ -75,6 +91,8 @@ export default {
     ...mapState({
       players: (state) => state.players,
       isModalOpen: (state) => state.isModalOpen,
+      isBigNumbersModalOpen: (state) => state.isBigNumbersModalOpen,
+      isNegativeNumbersModalOpen: (state) => state.isNegativeNumbersModalOpen,
     }),
   },
   watch: {

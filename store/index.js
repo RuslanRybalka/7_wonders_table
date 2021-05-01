@@ -1,17 +1,24 @@
 import {
   OPEN_MODAL,
   CLOSE_MODAL,
+  CLOSE_MODALS,
   SET_SELECTED_POINTS_VALUE,
   GET_PLAYER,
   SET_SELECTED_CELL,
   GET_RESULTS,
   ADD_PLAYER,
+  OPEN_BIG_NUMBERS_MODAL,
+  CLOSE_BIG_NUMBERS_MODAL,
+  OPEN_NEGATIVE_NUMBERS_MODAL,
+  CLOSE_NEGATIVE_NUMBERS_MODAL,
 } from '~/store/mutation-types'
 
 export const state = () => ({
   currentId: 0,
   players: [],
   isModalOpen: false,
+  isBigNumbersModalOpen: false,
+  isNegativeNumbersModalOpen: false,
   selectedCell: {
     player: '',
     name: '',
@@ -43,9 +50,16 @@ export const mutations = {
   },
   [OPEN_MODAL](state) {
     state.isModalOpen = true
+    state.isBigNumbersModalOpen = false
+    state.isNegativeNumbersModalOpen = false
   },
   [CLOSE_MODAL](state) {
     state.isModalOpen = false
+  },
+  [CLOSE_MODALS](state) {
+    state.isModalOpen = false
+    state.isNegativeNumbersModalOpen = false
+    state.isBigNumbersModalOpen = false
   },
   [SET_SELECTED_POINTS_VALUE](state, value) {
     const target = state.selectedCell
@@ -57,6 +71,22 @@ export const mutations = {
   },
   [SET_SELECTED_CELL](state, cell) {
     state.selectedCell = { ...cell }
+  },
+  [OPEN_NEGATIVE_NUMBERS_MODAL](state) {
+    state.isNegativeNumbersModalOpen = true
+    state.isBigNumbersModalOpen = false
+    state.isModalOpen = false
+  },
+  [CLOSE_NEGATIVE_NUMBERS_MODAL](state) {
+    state.isNegativeNumbersModalOpen = false
+  },
+  [OPEN_BIG_NUMBERS_MODAL](state) {
+    state.isBigNumbersModalOpen = true
+    state.isModalOpen = false
+    state.isNegativeNumbersModalOpen = false
+  },
+  [CLOSE_BIG_NUMBERS_MODAL](state) {
+    state.isBigNumbersModalOpen = false
   },
 }
 
