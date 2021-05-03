@@ -148,7 +148,7 @@ export default {
 @import '~/assets/colors.scss';
 .container {
   width: 100vw;
-  padding: 40px 18px 40px;
+  padding: 20px 18px 40px;
   margin: 0 auto;
   display: flex;
   justify-content: flex-start;
@@ -156,12 +156,20 @@ export default {
   flex-direction: column;
 }
 .input-container {
+  padding: 20px;
+  background-color: $color-body;
   margin-bottom: 24px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
+  position: sticky;
+  top: 20px;
+  z-index: 1;
+  box-shadow: 0px 5px 10px rgba(128, 128, 128, 0.3);
   input {
+    display: block;
+    width: 100%;
     flex-grow: 1;
     border: none;
     outline: none;
