@@ -1,5 +1,5 @@
 <template>
-  <button type="submit" class="button">Add</button>
+  <button type="submit" class="button" @click="$emit('clickEvent')">Add</button>
 </template>
 <script>
 export default {}

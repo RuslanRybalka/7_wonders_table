@@ -52,7 +52,12 @@
       Total
     </button>
     <transition name="fade">
-      <PointsModal v-if="isModalOpen" :dimension="6" :has-norm-button="false" />
+      <PointsModal
+        v-if="isModalOpen"
+        :dimension="6"
+        :has-norm-button="false"
+        :has-science-button="isScienceCell"
+      />
     </transition>
     <transition name="fade">
       <PointsModal
@@ -60,6 +65,7 @@
         :dimension="6"
         :start="36"
         :has-big-button="false"
+        :has-science-button="isScienceCell"
       />
     </transition>
     <transition name="fade">
@@ -68,7 +74,11 @@
         :dimension="4"
         :start="-16"
         :has-less-button="false"
+        :has-science-button="isScienceCell"
       />
+    </transition>
+    <transition name="fade">
+      <ScienceCalculator v-if="isScienceCalculatorModalOpen" />
     </transition>
   </div>
 </template>
@@ -85,12 +95,14 @@ import {
 } from '~/store/mutation-types'
 import '~/assets/general.scss'
 import PointsModal from '~/components/PointsModal'
+import ScienceCalculator from '~/components/ScienceCalculator'
 export default {
-  components: { PointsModal },
+  components: { PointsModal, ScienceCalculator },
   data: () => ({
     isReady: false,
     isAddButtonDisabled: true,
     inputName: '',
+    isScienceCell: false,
   }),
   computed: {
     ...mapState({
@@ -98,6 +110,8 @@ export default {
       isModalOpen: (state) => state.isModalOpen,
       isBigNumbersModalOpen: (state) => state.isBigNumbersModalOpen,
       isNegativeNumbersModalOpen: (state) => state.isNegativeNumbersModalOpen,
+      isScienceCalculatorModalOpen: (state) =>
+        state.isScienceCalculatorModalOpen,
     }),
   },
   watch: {
@@ -110,6 +124,11 @@ export default {
     selectPoints(event) {
       const target = event.target
       const dataset = target.dataset
+      if (dataset.name === 'science') {
+        this.isScienceCell = true
+      } else {
+        this.isScienceCell = false
+      }
       // const { player, name, value, playerId } = dataset
       this.SET_SELECTED_CELL(dataset)
       this.OPEN_MODAL()

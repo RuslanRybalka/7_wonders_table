@@ -15,13 +15,19 @@
       >
         ...
       </button>
-
       <button
         v-if="hasBigButton"
         class="point-cell button_more"
         @click="OPEN_BIG_NUMBERS_MODAL"
       >
         more
+      </button>
+      <button
+        v-if="hasScienceButton"
+        class="point-cell button_science"
+        @click="openScienceCalculator"
+      >
+        Calculator
       </button>
       <div
         v-for="(value, index) in points"
@@ -43,6 +49,7 @@ import {
   CLOSE_MODALS,
   OPEN_BIG_NUMBERS_MODAL,
   OPEN_NEGATIVE_NUMBERS_MODAL,
+  OPEN_SCIENCE_CALCULATOR_MODAL,
   SET_SELECTED_POINTS_VALUE,
 } from '~/store/mutation-types'
 export default {
@@ -71,6 +78,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    hasScienceButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   created() {
     this.points = new Array(this.dimension * this.dimension)
@@ -88,17 +99,22 @@ export default {
       this.SET_SELECTED_POINTS_VALUE(value)
       this.CLOSE_MODALS()
     },
+    openScienceCalculator() {
+      this.OPEN_SCIENCE_CALCULATOR_MODAL()
+    },
     ...mapMutations([
       OPEN_MODAL,
       CLOSE_MODALS,
       SET_SELECTED_POINTS_VALUE,
       OPEN_NEGATIVE_NUMBERS_MODAL,
       OPEN_BIG_NUMBERS_MODAL,
+      OPEN_SCIENCE_CALCULATOR_MODAL,
     ]),
   },
 }
 </script>
 <style scoped lang="scss">
+@import '~/assets/colors.scss';
 .modal {
   width: 100vw;
   height: 100vh;
@@ -136,7 +152,8 @@ export default {
 }
 .button_less,
 .button_more,
-.button_norm {
+.button_norm,
+.button_science {
   position: absolute;
   bottom: calc(100% + 20px);
   font-size: 14px;
@@ -150,5 +167,11 @@ export default {
 .button_norm {
   left: 50%;
   transform: translateX(-50%);
+}
+.button_science {
+  width: 100%;
+  bottom: calc(100% + 82px);
+  background: $color-science;
+  color: white;
 }
 </style>

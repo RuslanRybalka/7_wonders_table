@@ -6,6 +6,7 @@ import {
   SUBTRACT_SQUARE,
   SUBTRACT_TRIANGLE,
   GET_SCIENCE_RESULT,
+  RESET_SCIENCE_CALCULATOR,
 } from './science-mutation-types'
 export const state = () => ({
   square: {
@@ -39,6 +40,11 @@ export const mutations = {
   [SUBTRACT_TRIANGLE](state) {
     state.triangle.count--
     state.triangle.count = state.triangle.count <= 0 ? 0 : state.triangle.count
+  },
+  [RESET_SCIENCE_CALCULATOR](state) {
+    for (const key in state) {
+      state[key].count = 0
+    }
   },
 }
 export const getters = {

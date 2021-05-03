@@ -11,6 +11,8 @@ import {
   CLOSE_BIG_NUMBERS_MODAL,
   OPEN_NEGATIVE_NUMBERS_MODAL,
   CLOSE_NEGATIVE_NUMBERS_MODAL,
+  OPEN_SCIENCE_CALCULATOR_MODAL,
+  CLOSE_SCIENCE_CALCULATOR_MODAL,
 } from '~/store/mutation-types'
 
 export const state = () => ({
@@ -19,6 +21,7 @@ export const state = () => ({
   isModalOpen: false,
   isBigNumbersModalOpen: false,
   isNegativeNumbersModalOpen: false,
+  isScienceCalculatorModalOpen: false,
   selectedCell: {
     player: '',
     name: '',
@@ -52,6 +55,7 @@ export const mutations = {
     state.isModalOpen = true
     state.isBigNumbersModalOpen = false
     state.isNegativeNumbersModalOpen = false
+    state.isScienceCalculatorOpen = false
   },
   [CLOSE_MODAL](state) {
     state.isModalOpen = false
@@ -60,6 +64,7 @@ export const mutations = {
     state.isModalOpen = false
     state.isNegativeNumbersModalOpen = false
     state.isBigNumbersModalOpen = false
+    state.isScienceCalculatorModalOpen = false
   },
   [SET_SELECTED_POINTS_VALUE](state, value) {
     const target = state.selectedCell
@@ -76,6 +81,7 @@ export const mutations = {
     state.isNegativeNumbersModalOpen = true
     state.isBigNumbersModalOpen = false
     state.isModalOpen = false
+    state.isScienceCalculatorOpen = false
   },
   [CLOSE_NEGATIVE_NUMBERS_MODAL](state) {
     state.isNegativeNumbersModalOpen = false
@@ -84,9 +90,17 @@ export const mutations = {
     state.isBigNumbersModalOpen = true
     state.isModalOpen = false
     state.isNegativeNumbersModalOpen = false
+    state.isScienceCalculatorOpen = false
   },
   [CLOSE_BIG_NUMBERS_MODAL](state) {
     state.isBigNumbersModalOpen = false
+  },
+  [OPEN_SCIENCE_CALCULATOR_MODAL](state) {
+    closeAllModals(state)
+    state.isScienceCalculatorModalOpen = true
+  },
+  [CLOSE_SCIENCE_CALCULATOR_MODAL](state) {
+    state.isScienceCalculatorOpen = false
   },
 }
 
@@ -104,4 +118,11 @@ export const getters = {
     })
     return results
   },
+}
+
+function closeAllModals(state) {
+  state.isScienceCalculatorOpen = false
+  state.isModalOpen = false
+  state.isBigNumbersModalOpen = false
+  state.isNegativeNumbersModalOpen = false
 }

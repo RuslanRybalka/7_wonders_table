@@ -1,5 +1,5 @@
 <template>
-  <div class="calculator">
+  <div class="calculator" @click.self="CLOSE_MODALS">
     <div class="calculator__inner">
       <ScienceCalculatorType
         type-class="type_square"
@@ -26,7 +26,7 @@
     <div class="calculator__result">
       Result: <span>{{ getResult }}</span>
       <div class="calculator__result-button">
-        <ButtonBlue />
+        <ButtonBlue @clickEvent="addScienceResult" />
       </div>
     </div>
   </div>
@@ -43,7 +43,9 @@ import {
   SUBTRACT_TRIANGLE,
   SUBTRACT_CIRCLE,
   GET_SCIENCE_RESULT,
+  RESET_SCIENCE_CALCULATOR,
 } from '~/store/science-mutation-types'
+import { CLOSE_MODALS, SET_SELECTED_POINTS_VALUE } from '~/store/mutation-types'
 export default {
   name: 'ScienceCalculator',
   components: { ScienceCalculatorType, ButtonBlue },
@@ -58,6 +60,11 @@ export default {
     },
   },
   methods: {
+    addScienceResult() {
+      this.SET_SELECTED_POINTS_VALUE(this.getResult)
+      this.CLOSE_MODALS()
+      this.RESET_SCIENCE_CALCULATOR()
+    },
     ...mapMutations('science', [
       ADD_CIRCLE,
       ADD_SQUARE,
@@ -65,7 +72,9 @@ export default {
       SUBTRACT_CIRCLE,
       SUBTRACT_SQUARE,
       SUBTRACT_TRIANGLE,
+      RESET_SCIENCE_CALCULATOR,
     ]),
+    ...mapMutations([CLOSE_MODALS, SET_SELECTED_POINTS_VALUE]),
     ...mapGetters('science', [GET_SCIENCE_RESULT]),
   },
 }
@@ -81,6 +90,9 @@ export default {
   align-items: center;
   background-color: $color-modal-bg;
   padding: 18px;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 .calculator__inner {
   width: 100%;
