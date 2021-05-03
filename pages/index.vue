@@ -148,11 +148,10 @@ export default {
 @import '~/assets/colors.scss';
 .container {
   width: 100vw;
-  height: 80vh;
-  padding: 0 18px;
+  padding: 40px 18px 40px;
   margin: 0 auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
 }
