@@ -23,12 +23,18 @@
         @subtract="SUBTRACT_TRIANGLE"
       />
     </div>
-    <div class="calculator_result">Result: {{ getResult }}</div>
+    <div class="calculator__result">
+      Result: <span>{{ getResult }}</span>
+      <div class="calculator__result-button">
+        <ButtonBlue />
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex'
-import ScienceCalculatorType from './ScienceCalculatorType'
+import ScienceCalculatorType from '~/components/ScienceCalculatorType'
+import ButtonBlue from '~/components/ButtonBlue'
 import {
   ADD_SQUARE,
   ADD_TRIANGLE,
@@ -40,7 +46,7 @@ import {
 } from '~/store/science-mutation-types'
 export default {
   name: 'ScienceCalculator',
-  components: { ScienceCalculatorType },
+  components: { ScienceCalculatorType, ButtonBlue },
   computed: {
     ...mapState('science', {
       squareCount: (state) => state.square.count,
@@ -85,11 +91,19 @@ export default {
   row-gap: 16px;
   grid-template-columns: 1fr;
 }
-.calculator_result {
+.calculator__result {
   padding: 8px 16px;
+  width: 100%;
   display: flex;
+  justify-content: flex-start;
   background-color: white;
   font-size: 24px;
   margin-top: 32px;
+  span {
+    margin-left: auto;
+  }
+  &-button {
+    margin-left: 16px;
+  }
 }
 </style>
