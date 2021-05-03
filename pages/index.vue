@@ -22,6 +22,7 @@
         <div class="cell guilds"></div>
         <div class="cell black"></div>
         <div class="cell leaders"></div>
+        <div class="cell result"></div>
       </div>
       <div v-for="player in players" :key="player.id" class="column">
         <div class="cell">{{ player.name.slice(0, 4) }}</div>
@@ -37,9 +38,13 @@
         >
           {{ value }}
         </div>
+        <div class="cell result">
+          {{ player.result }}
+        </div>
       </div>
     </div>
     <button
+      v-if="false"
       class="button button_total"
       :class="{ isReady: isReady }"
       @click="showResults"
@@ -47,14 +52,14 @@
       Total
     </button>
     <transition name="fade">
-      <PointsModal v-if="isModalOpen" :dimension="6" :hasNormButton="false" />
+      <PointsModal v-if="isModalOpen" :dimension="6" :has-norm-button="false" />
     </transition>
     <transition name="fade">
       <PointsModal
         v-if="isBigNumbersModalOpen"
         :dimension="6"
         :start="36"
-        :hasBigButton="false"
+        :has-big-button="false"
       />
     </transition>
     <transition name="fade">
@@ -62,7 +67,7 @@
         v-if="isNegativeNumbersModalOpen"
         :dimension="4"
         :start="-16"
-        :hasLessButton="false"
+        :has-less-button="false"
       />
     </transition>
   </div>
@@ -124,6 +129,7 @@ export default {
 $color-war: #da4747;
 $color-culture: #0085ff;
 $color-science: #009334;
+$color-science-faded: rgba(206, 255, 223, 1);
 $color-trade: #f9f871;
 $color-black: #1f1f1f;
 $color-leaders: #99aae0;
@@ -182,6 +188,7 @@ $color-coin-border: #dc6200;
 .column {
   display: grid;
   row-gap: 2px;
+  position: relative;
   .cell:first-child {
     font-size: 14px;
   }
@@ -245,6 +252,9 @@ $color-coin-border: #dc6200;
   }
   &.guilds {
     background-color: $color-guilds;
+  }
+  &.result {
+    background-color: $color-science-faded;
   }
 }
 .fade-enter-active,
