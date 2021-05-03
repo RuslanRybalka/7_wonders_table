@@ -72,7 +72,11 @@ export const mutations = {
       return player.id === +state.selectedCell.playerId
     })
     player.points[target.name] = value
-    player.result += value
+    let result = 0
+    for (const key in player.points) {
+      result += player.points[key] || 0
+    }
+    player.result = result
   },
   [SET_SELECTED_CELL](state, cell) {
     state.selectedCell = { ...cell }
