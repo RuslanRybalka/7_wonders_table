@@ -165,7 +165,7 @@ export default {
   width: 100%;
   position: sticky;
   top: 20px;
-  z-index: 1;
+  z-index: 2;
   box-shadow: 0px 5px 10px rgba(128, 128, 128, 0.3);
   input {
     display: block;
@@ -200,6 +200,7 @@ export default {
   .column:first-child {
     position: sticky;
     left: 0;
+    z-index: 1;
   }
 }
 .column {

@@ -93,6 +93,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 100;
 }
 .calculator__inner {
   width: 100%;
