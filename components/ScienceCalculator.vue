@@ -1,65 +1,67 @@
 <template>
   <div class="calculator" @click.self="CLOSE_MODALS">
-    <div class="calculator__modifiers">
-      <label>
-        <input
-          v-model="modifier"
-          checked
-          type="radio"
-          name="modifier"
-          value="0"
-          @change="setModifier(modifier)"
+    <div class="calculator__container">
+      <div class="calculator__modifiers">
+        <label>
+          <input
+            v-model="modifier"
+            checked
+            type="radio"
+            name="modifier"
+            value="0"
+            @change="setModifier(modifier)"
+          />
+          <span>0</span>
+        </label>
+        <label>
+          <input
+            v-model="modifier"
+            type="radio"
+            name="modifier"
+            value="3"
+            @change="setModifier(modifier)"
+          />
+          <span>+3</span>
+        </label>
+        <label>
+          <input
+            v-model="modifier"
+            type="radio"
+            name="modifier"
+            value="6"
+            @change="setModifier(modifier)"
+          />
+          <span>+6</span>
+        </label>
+      </div>
+      <div class="calculator__inner">
+        <ScienceCalculatorType
+          type-class="type_square"
+          type="square"
+          :total="squareCount"
+          @add="ADD_SQUARE"
+          @subtract="SUBTRACT_SQUARE"
         />
-        <span>0</span>
-      </label>
-      <label>
-        <input
-          v-model="modifier"
-          type="radio"
-          name="modifier"
-          value="3"
-          @change="setModifier(modifier)"
+        <ScienceCalculatorType
+          type-class="type_circle"
+          type="circle"
+          :total="circleCount"
+          @add="ADD_CIRCLE"
+          @subtract="SUBTRACT_CIRCLE"
         />
-        <span>+3</span>
-      </label>
-      <label>
-        <input
-          v-model="modifier"
-          type="radio"
-          name="modifier"
-          value="6"
-          @change="setModifier(modifier)"
+        <ScienceCalculatorType
+          type-class="type_triangle"
+          type="triangle"
+          :total="triangleCount"
+          @add="ADD_TRIANGLE"
+          @subtract="SUBTRACT_TRIANGLE"
         />
-        <span>+6</span>
-      </label>
-    </div>
-    <div class="calculator__inner">
-      <ScienceCalculatorType
-        type-class="type_square"
-        type="square"
-        :total="squareCount"
-        @add="ADD_SQUARE"
-        @subtract="SUBTRACT_SQUARE"
-      />
-      <ScienceCalculatorType
-        type-class="type_circle"
-        type="circle"
-        :total="circleCount"
-        @add="ADD_CIRCLE"
-        @subtract="SUBTRACT_CIRCLE"
-      />
-      <ScienceCalculatorType
-        type-class="type_triangle"
-        type="triangle"
-        :total="triangleCount"
-        @add="ADD_TRIANGLE"
-        @subtract="SUBTRACT_TRIANGLE"
-      />
-    </div>
-    <div class="calculator__result">
-      Result: <span>{{ getResult }}</span>
-      <div class="calculator__result-button">
-        <ButtonBlue @clickEvent="addScienceResult" />
+      </div>
+      <div class="calculator__result">
+        Result: <span>{{ getResult }}</span>
+        <div class="calculator__result-button">
+          <ButtonBlue @clickEvent="addScienceResult" />
+        </div>
       </div>
     </div>
   </div>
@@ -124,6 +126,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~/assets/colors.scss';
+@import '~/assets/mixins.scss';
 .calculator {
   width: 100vw;
   height: 100vh;
@@ -132,11 +135,17 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: $color-modal-bg;
-  padding: 18px;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 100;
+}
+.calculator__container {
+  width: 100%;
+  padding: 18px;
+  @include min(415) {
+    max-width: 425px;
+  }
 }
 .calculator__modifiers {
   display: flex;
@@ -171,7 +180,6 @@ export default {
 }
 .calculator__inner {
   width: 100%;
-  max-width: 425px;
   padding: 24px 32px;
   background-color: #fff;
   display: grid;
