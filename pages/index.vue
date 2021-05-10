@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <form class="input-container" @submit.prevent="addPlayer">
-      <input v-model="inputName" type="text" />
+      <input v-model="inputName" type="text" @focus="hideExpansions" />
       <button
         :disabled="isAddButtonDisabled"
         type="submit"
@@ -11,40 +11,55 @@
       </button>
     </form>
     <div class="expansions">
-      <h3>Expansions</h3>
-      <label>
-        <input
-          v-model="expansions"
-          type="checkbox"
-          value="cities"
-          :checked="isCitiesExpansion"
-          @change="isCitiesExpansion = !isCitiesExpansion"
-        />
-        <span class="custom-checkbox"></span>
-        <span>Cities</span>
+      <label for="close_expansion" class="button expansions__button_close">
+        {{ expansionsButtonText }}
       </label>
-      <label>
-        <input
-          v-model="expansions"
-          type="checkbox"
-          value="leaders"
-          :checked="isLeadersExpansion"
-          @change="isLeadersExpansion = !isLeadersExpansion"
-        />
-        <span class="custom-checkbox"></span>
-        <span>Leaders</span>
-      </label>
-      <label>
-        <input
-          v-model="expansions"
-          type="checkbox"
-          value="babel"
-          :checked="isBabelExpansion"
-          @change="isBabelExpansion = !isBabelExpansion"
-        />
-        <span class="custom-checkbox"></span>
-        <span>Babel</span>
-      </label>
+      <input
+        type="checkbox"
+        id="close_expansion"
+        @change="toggleExpansionsVisibility"
+      />
+      <div class="expansions__wrapper">
+        <div
+          class="expansions__content"
+          :class="{ active: !isExpansionsHidden }"
+        >
+          <h3>Expansions</h3>
+          <label>
+            <input
+              v-model="expansions"
+              type="checkbox"
+              value="cities"
+              :checked="isCitiesExpansion"
+              @change="isCitiesExpansion = !isCitiesExpansion"
+            />
+            <span class="custom-checkbox"></span>
+            <span>Cities</span>
+          </label>
+          <label>
+            <input
+              v-model="expansions"
+              type="checkbox"
+              value="leaders"
+              :checked="isLeadersExpansion"
+              @change="isLeadersExpansion = !isLeadersExpansion"
+            />
+            <span class="custom-checkbox"></span>
+            <span>Leaders</span>
+          </label>
+          <label>
+            <input
+              v-model="expansions"
+              type="checkbox"
+              value="babel"
+              :checked="isBabelExpansion"
+              @change="isBabelExpansion = !isBabelExpansion"
+            />
+            <span class="custom-checkbox"></span>
+            <span>Babel</span>
+          </label>
+        </div>
+      </div>
     </div>
     <div class="table">
       <div class="column fields">
@@ -146,6 +161,7 @@ export default {
     isLeadersExpansion: false,
     isBabelExpansion: false,
     expansions: [],
+    isExpansionsHidden: true,
   }),
   computed: {
     ...mapState({
@@ -158,6 +174,9 @@ export default {
     }),
     getPlayers() {
       return this.GET_PLAYERS()
+    },
+    expansionsButtonText() {
+      return this.isExpansionsHidden ? 'Show expansions' : 'Hide expansions'
     },
   },
   watch: {
@@ -181,6 +200,13 @@ export default {
       // const { player, name, value, playerId } = dataset
       this.SET_SELECTED_CELL(dataset)
       this.OPEN_MODAL()
+      this.hideExpansions()
+    },
+    hideExpansions() {
+      this.isExpansionsHidden = true
+    },
+    toggleExpansionsVisibility() {
+      this.isExpansionsHidden = !this.isExpansionsHidden
     },
     addPlayer() {
       this.ADD_PLAYER(this.inputName)
@@ -401,14 +427,13 @@ export default {
   }
 }
 .expansions {
+  position: relative;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   max-width: 425px;
   margin: 0 auto;
   margin-bottom: 24px;
+  display: flex;
+  justify-content: flex-end;
   h3 {
     margin-bottom: 16px;
   }
@@ -433,6 +458,30 @@ export default {
       }
     }
   }
+  &__wrapper {
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    padding: 10px;
+  }
+  &__content {
+    //width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+    transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background-color: white;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    padding: 16px;
+    transform: translateX(-120%);
+    &.active {
+      transform: translateX(0);
+    }
+  }
 }
 .custom-checkbox {
   position: absolute;
@@ -455,6 +504,20 @@ export default {
     background-color: $color-culture;
     opacity: 0;
     transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+.expansions .expansions__button_close {
+  display: block;
+  position: relative;
+  z-index: 3;
+  align-self: flex-end;
+  & + input {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    // &:checked + .expansions__wrapper .expansions__content {
+    //   transform: translateX(0);
+    // }
   }
 }
 </style>
